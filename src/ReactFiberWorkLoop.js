@@ -44,7 +44,6 @@ function performUnitOfWork() {
     default:
       break;
   }
-
   // 深度优先
   if (wip.child) {
     wip = wip.child;
@@ -83,8 +82,7 @@ function commitWorker(wip) {
   if (!wip) return;
   // 1.提交自己
   const { flags, stateNode } = wip;
-  // ? 获取父节点的方式待改进
-  const parentNode = wip.return.stateNode;
+  const parentNode = getParentNode(wip.return);
   if (flags & Placement && stateNode) {
     parentNode.appendChild(stateNode);
   }
@@ -92,4 +90,14 @@ function commitWorker(wip) {
   commitWorker(wip.child);
   // 3.提交兄弟节点
   commitWorker(wip.sibling);
+}
+
+function getParentNode(wip) {
+  let tmp = wip;
+  while (tmp) {
+    if (tmp.stateNode) {
+      return tmp.stateNode;
+    }
+    tmp = tmp.return;
+  }
 }

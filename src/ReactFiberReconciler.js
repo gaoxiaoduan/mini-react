@@ -11,10 +11,29 @@ export function updateHostComponent(wip) {
   reconcileChildren(wip, wip.props.children);
 }
 
+export function updateFunctionComponent(wip) {
+  const { type, props } = wip;
+  const children = type(props); // 函数组件执行
+  reconcileChildren(wip, children);
+}
+
+export function updateClassComponent(wip) {
+  const { type, props } = wip;
+  let instance = new type(props);
+  const children = instance.render();
+  reconcileChildren(wip, children);
+}
+
+export function updateFragmentComponent(wip) {
+  reconcileChildren(wip, wip.props.children);
+}
+export function updateHostTextComponent(wip) {
+  wip.stateNode = document.createTextNode(wip.props.children);
+}
+
 // diff
 function reconcileChildren(wip, children) {
   if (isStringOrNumber(children)) return;
-
   const newChildren = isArray(children) ? children : [children];
   let prevNewFiber = null;
   for (let i = 0; i < newChildren.length; i++) {
@@ -28,8 +47,3 @@ function reconcileChildren(wip, children) {
     prevNewFiber = newFiber;
   }
 }
-
-export function updateFunctionComponent(wip) {}
-export function updateClassComponent(wip) {}
-export function updateFragmentComponent(wip) {}
-export function updateHostTextComponent(wip) {}

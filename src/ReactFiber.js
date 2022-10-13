@@ -32,7 +32,7 @@ export function createFiber(vnode, returnFiber) {
   if (isStr(type)) {
     fiber.tag = HostComponent;
   } else if (isFn(type)) {
-    // todo 函数以及类组件
+    // 函数以及类组件
     fiber.tag = type.prototype.isReactComponent
       ? ClassComponent
       : FunctionComponent;

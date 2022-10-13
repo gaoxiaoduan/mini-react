@@ -12,12 +12,12 @@ ReactDOMRoot.prototype.render = function (children) {
 
 function updateContainer(element, container) {
   const { containerInfo } = container;
-  //   console.log("vnode", element);
+  console.log("vnode", element);
   const fiber = createFiber(element, {
     type: containerInfo.nodeName.toLowerCase(),
     stateNode: containerInfo,
   });
-  //   console.log("fiber", fiber);
+  console.log("fiber", fiber);
   // 组件初次渲染
   scheduleUpdateOnFiber(fiber);
 }
