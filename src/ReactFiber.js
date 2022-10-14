@@ -27,6 +27,8 @@ export function createFiber(vnode, returnFiber) {
     index: null,
     // old fiber
     alternate: null,
+    // 存储函数中的state，链表结构
+    memorizedState: null,
   };
   const { type } = fiber;
   if (isStr(type)) {
