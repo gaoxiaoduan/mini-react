@@ -1,8 +1,22 @@
-import { useReducer, useState } from "../../which-react";
+import {
+  useReducer,
+  useState,
+  useEffect,
+  useLayoutEffect,
+} from "../../which-react";
 
 function FunctionComponent(props) {
   const [count1, setCount1] = useReducer((x) => x + 1, 0);
   const [count2, setCount2] = useState(0);
+
+  useEffect(() => {
+    console.log("useEffect->count1", count1);
+  }, [count1]);
+
+  useLayoutEffect(() => {
+    console.log("useLayoutEffect->count2", count2);
+  }, [count2]);
+
   return (
     <div className="border">
       <h2>{props.name}</h2>
