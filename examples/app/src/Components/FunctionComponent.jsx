@@ -10,6 +10,7 @@ function FunctionComponent(props) {
       <button onClick={() => setCount2((count2) => count2 + 1)}>
         {count2}
       </button>
+      <div>{count1 % 2 ? <store>true</store> : <span>false</span>}</div>
     </div>
   );
 }
