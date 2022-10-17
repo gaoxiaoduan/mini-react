@@ -83,9 +83,12 @@ function commitWorker(wip) {
   // 1.提交自己
   const { flags, stateNode } = wip;
   const parentNode = getParentNode(wip.return);
+
   if (flags & Placement && stateNode) {
-    parentNode.appendChild(stateNode);
+    const before = getHostSibling(wip.sibling);
+    insertOrAppendPlacementNode(stateNode, before, parentNode);
   }
+
   if (flags & Update && stateNode) {
     updateNode(stateNode, wip.alternate?.props || {}, wip.props);
   }
@@ -124,4 +127,22 @@ function getStateNode(fiber) {
   }
 
   return tem.stateNode;
+}
+
+function getHostSibling(sibling) {
+  while (sibling) {
+    if (sibling.stateNode && !(sibling.flags & Placement)) {
+      return sibling.stateNode;
+    }
+    sibling = sibling.sibling;
+  }
+  return null;
+}
+
+function insertOrAppendPlacementNode(stateNode, before, parentNode) {
+  if (before) {
+    parentNode.insertBefore(stateNode, before);
+  } else {
+    parentNode.appendChild(stateNode);
+  }
 }
